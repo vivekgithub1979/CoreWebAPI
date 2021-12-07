@@ -5,7 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Models;
+using WebAPI.Model;
+
 
 namespace WebAPI.Controllers
 {
@@ -13,9 +14,9 @@ namespace WebAPI.Controllers
     [ApiController]
     public class RecordController : Controller
     {
-        private readonly WebAPIContext webAPIContext;
+        private readonly UARAuditAppDbContext webAPIContext;
 
-        public RecordController(WebAPIContext webAPIContext, IConfiguration configuration)
+        public RecordController(UARAuditAppDbContext webAPIContext, IConfiguration configuration)
         {
             this.webAPIContext = webAPIContext;     
         }
@@ -35,10 +36,10 @@ namespace WebAPI.Controllers
         // POST: api/WebAPIItems
         [HttpPost]
         [Produces("application/json")]
-        public TblChangeRequest Post([FromBody] TblChangeRequest TblChangeRequestItems)
+        public TblChangeRequest Post([FromBody] TblChangeRequest TblChangeRequestsItems)
         {
 
-            webAPIContext.TblChangeRequest.AddAsync(TblChangeRequestItems);
+            webAPIContext.TblChangeRequests.AddAsync(TblChangeRequestsItems);
             webAPIContext.SaveChanges();
             // Logic to create new Employee
             return new TblChangeRequest();
@@ -55,10 +56,10 @@ namespace WebAPI.Controllers
         //}
         private List<TblUserAccessRequest> GettblUserAccessRequest()
         {
-            var x = webAPIContext.TblUserAccessRequest                
-                .Where(x => x.Enabled)
+            var x = webAPIContext.TblUserAccessRequests                
+                .Where(x => x.Enabled==true)
                 .Where(x => x.StatusId == "Not Processed")
-                .Where(x => x.SystemId == "Eclipse").ToList();
+                .Where(x => x.SystemId == "Eclipse").Take(100).ToList();
 
             return x;
         }
