@@ -56,7 +56,7 @@ namespace WebAPI.Controllers
         {
             new WebAPIItems()
             {
-                
+
                 Id = 1,
                 Name= "John",
                 IsComplete = true
