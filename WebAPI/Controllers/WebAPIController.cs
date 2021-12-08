@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using WebAPI.Models;
+using WebAPI.Model;
 
 namespace WebAPI.Controllers
 {
@@ -12,37 +9,37 @@ namespace WebAPI.Controllers
 
     public class WebAPIController : Controller
     {
-        private readonly WebAPIContext webAPIContext;
+        private readonly UARAuditAppDbContext uarAuditAppDbContext;
 
-        public WebAPIController(WebAPIContext webAPIContext)
+        public WebAPIController(UARAuditAppDbContext uarAuditAppDbContext)
         {
-            this.webAPIContext = webAPIContext;
+            this.uarAuditAppDbContext = uarAuditAppDbContext;
         }
         [HttpGet]
-        public IEnumerable<WebAPIItems> Get()
+        public IEnumerable<WebApiitem> Get()
         {
             return GetWebAPIItems();
         }
         // GET: api/WebAPIItem/5
         [HttpGet("{id}", Name = "Get")]
-        public WebAPIItems Get(int id)
+        public WebApiitem Get(int id)
         {
             return GetWebAPIItems().Find(e => e.Id == id);
         }
         // POST: api/WebAPIItems
         [HttpPost]
         [Produces("application/json")]
-        public WebAPIItems Post([FromBody] WebAPIItems webAPIItems)
+        public WebApiitem Post([FromBody] WebApiitem webAPIItems)
         {
 
-            webAPIContext.WebAPIItems.AddAsync(webAPIItems);
-            webAPIContext.SaveChanges();
+            uarAuditAppDbContext.WebApiitems.AddAsync(webAPIItems);
+            uarAuditAppDbContext.SaveChanges();
             // Logic to create new Employee
-            return new WebAPIItems();
+            return new WebApiitem();
         }
         // PUT: api/Employee/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] WebAPIItems webAPIItems)
+        public void Put(int id, [FromBody] WebApiitem webAPIItems)
         {
         }
         // DELETE: api/Employee/5
@@ -50,18 +47,18 @@ namespace WebAPI.Controllers
         public void Delete(int id)
         {
         }
-        private List<WebAPIItems> GetWebAPIItems()
+        private List<WebApiitem> GetWebAPIItems()
         {
-            return new List<WebAPIItems>()
+            return new List<WebApiitem>()
         {
-            new WebAPIItems()
+            new WebApiitem()
             {
 
                 Id = 1,
                 Name= "John",
                 IsComplete = true
             },
-            new WebAPIItems()
+            new WebApiitem()
             {
                 Id = 2,
                 Name= "Jane",
